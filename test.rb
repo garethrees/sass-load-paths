@@ -4,6 +4,14 @@ require 'test/unit'
  
 class TestSassPaths < Test::Unit::TestCase
  
+  # Expecting theme/custom.scss to be used over core/custom.scss
+  #
+  # stylesheets/
+  # ├── core
+  # │   ├── all.scss
+  # │   └── custom.scss
+  # └── theme
+  #     └── custom.scss
   def test_simple_override
     paths = %w(theme core).map do |dir|
       File.expand_path(File.dirname(__FILE__) + "/stylesheets/#{ dir }")
