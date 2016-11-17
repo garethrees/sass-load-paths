@@ -51,6 +51,24 @@ class TestSassPaths < Test::Unit::TestCase
             'scss output does not match custom_core'
   end
 
+  def test_simple_override_with_all_filename_option
+    paths = %w(theme core).map do |dir|
+      File.expand_path(File.dirname(__FILE__) + "/stylesheets/#{ dir }")
+    end
+
+    options = { :load_paths => paths,
+                :syntax => :scss,
+                :filename => @core_all_path }
+
+    template = File.read(@core_all_path)
+    engine = Sass::Engine.new(template, options)
+
+    # Interesting. This fails, maybe because the default importer's
+    # find_relative is looking relative to stylesheets/core?
+    assert engine.render =~ /custom_theme/,
+            'scss output does not match custom_theme'
+  end
+
   def test_simple_override_with_correct_filename_option
     paths = %w(theme core).map do |dir|
       File.expand_path(File.dirname(__FILE__) + "/stylesheets/#{ dir }")
