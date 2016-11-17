@@ -58,8 +58,7 @@ class TestSassPaths < Test::Unit::TestCase
 
     options = { :load_paths => paths,
                 :syntax => :scss,
-                :filename => @theme_custom_path,
-                :original_filename => @core_all_path }
+                :filename => @theme_custom_path }
 
     template = File.read(@core_all_path)
     engine = Sass::Engine.new(template, options)
@@ -75,8 +74,7 @@ class TestSassPaths < Test::Unit::TestCase
 
     options = { :load_paths => paths,
                 :syntax => :scss,
-                :filename => @core_custom_path,
-                :original_filename => @core_all_path }
+                :filename => @core_custom_path }
 
     template = File.read(@core_all_path)
     engine = Sass::Engine.new(template, options)
