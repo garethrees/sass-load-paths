@@ -4,6 +4,17 @@ require 'test/unit'
  
 class TestSassPaths < Test::Unit::TestCase
  
+  def setup
+    @core_all_path =
+      File.expand_path(File.dirname(__FILE__) + '/stylesheets/core/all.scss')
+
+    @core_custom_path =
+      File.expand_path(File.dirname(__FILE__) + '/stylesheets/core/custom.scss')
+
+    @theme_custom_path =
+      File.expand_path(File.dirname(__FILE__) + '/stylesheets/theme/custom.scss')
+  end
+
   # Expecting theme/custom.scss to be used over core/custom.scss
   #
   # stylesheets/
@@ -19,11 +30,7 @@ class TestSassPaths < Test::Unit::TestCase
 
     options = { :load_paths => paths, :syntax => :scss }
 
-    template =
-      File.read(
-        File.expand_path(
-          File.dirname(__FILE__) + '/stylesheets/core/all.scss'))
-
+    template = File.read(@core_all_path)
     engine = Sass::Engine.new(template, options)
 
     assert engine.render =~ /custom_theme/,
@@ -37,11 +44,7 @@ class TestSassPaths < Test::Unit::TestCase
 
     options = { :load_paths => paths, :syntax => :scss }
 
-    template =
-      File.read(
-        File.expand_path(
-          File.dirname(__FILE__) + '/stylesheets/core/all.scss'))
-
+    template = File.read(@core_all_path)
     engine = Sass::Engine.new(template, options)
 
     assert engine.render =~ /custom_core/,
@@ -53,22 +56,12 @@ class TestSassPaths < Test::Unit::TestCase
       File.expand_path(File.dirname(__FILE__) + "/stylesheets/#{ dir }")
     end
 
-    all_path =
-      File.expand_path(File.dirname(__FILE__) + '/stylesheets/core/all.scss')
-
-    custom_path =
-      File.expand_path(File.dirname(__FILE__) + '/stylesheets/theme/custom.scss')
-
     options = { :load_paths => paths,
                 :syntax => :scss,
-                :filename => custom_path,
-                :original_filename => all_path }
+                :filename => @theme_custom_path,
+                :original_filename => @core_all_path }
 
-    template =
-      File.read(
-        File.expand_path(
-          File.dirname(__FILE__) + '/stylesheets/core/all.scss'))
-
+    template = File.read(@core_all_path)
     engine = Sass::Engine.new(template, options)
 
     assert engine.render =~ /custom_theme/,
@@ -80,22 +73,12 @@ class TestSassPaths < Test::Unit::TestCase
       File.expand_path(File.dirname(__FILE__) + "/stylesheets/#{ dir }")
     end
 
-    all_path =
-      File.expand_path(File.dirname(__FILE__) + '/stylesheets/core/all.scss')
-
-    custom_path =
-      File.expand_path(File.dirname(__FILE__) + '/stylesheets/core/custom.scss')
-
     options = { :load_paths => paths,
                 :syntax => :scss,
-                :filename => custom_path,
-                :original_filename => all_path }
+                :filename => @core_custom_path,
+                :original_filename => @core_all_path }
 
-    template =
-      File.read(
-        File.expand_path(
-          File.dirname(__FILE__) + '/stylesheets/core/all.scss'))
-
+    template = File.read(@core_all_path)
     engine = Sass::Engine.new(template, options)
 
     # Given both filename options point to the core dir, the rendered css should
