@@ -81,10 +81,10 @@ class TestSassPaths < Test::Unit::TestCase
     template = File.read(@core_all_path)
     engine = Sass::Engine.new(template, options)
 
-    # Given both filename options point to the core dir, the rendered css should
-    # NOT match the theme override
-    assert engine.render !=~ /custom_theme/,
-            'scss output matches custom_theme'
+    # If the :filename option is used "solely for reporting errors", then this
+    # test should pass, but it doesn't
+    assert engine.render =~ /custom_theme/,
+            'scss output does not match custom_theme'
   end
 
 end
